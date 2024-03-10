@@ -97,14 +97,14 @@
 	
 	    <repository>
 	      <id>nexus</id>
-	      <name>Mithun Technologies Releases Nexus Repository</name>
-	      <url>http://172.31.7.147:9980/mithuntechnologies/repository/canarabank-releases/</url>
+	      <name>RajeshYadav</name>
+	      <url>http://13.127.245.84:8081/repository/Rajesh_Today/</url>
 	    </repository>
 	    
 	    <snapshotRepository>
 	      <id>nexus</id>
-	      <name>Mithun Technologies Snapshot Nexus Repository </name>
-	      <url>http://172.31.7.147:9980/mithuntechnologies/repository/canarabank-snapshot/</url>
+	      <name>RajeshYadav_Cherry</name>
+	      <url>http://13.127.245.84:8081/repository/Rajesh2_Today/</url>
 	    </snapshotRepository>
 	    
 	</distributionManagement>
