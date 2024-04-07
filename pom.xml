@@ -104,7 +104,7 @@
 	    <snapshotRepository>
 	      <id>nexus</id>
 	      <name>RajeshYadav_Cherry</name>
-	      <url>http://52.66.248.161:8081/repository/ScriptedPipeline_Snapshot/</url>
+	      <url>http://3.108.53.74:8081/repository/declerative/</url>
 	    </snapshotRepository>
 	    
 	</distributionManagement>
