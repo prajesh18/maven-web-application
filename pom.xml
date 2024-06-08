@@ -105,7 +105,7 @@
 	    <snapshotRepository>
 	      <id>nexus</id>
 	      <name>RajeshYadav_Cherry</name>
-	      <url>http://3.108.53.74:8081/repository/declerative/</url>
+	      <url>http://15.206.210.45:8081/rajesh/repository/nexus-first-snapshot-repo/</url>
 	    </snapshotRepository>
 	    
 	</distributionManagement>
