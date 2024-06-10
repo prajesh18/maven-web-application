@@ -1,12 +1,12 @@
 pipeline{
     agent any
-    try{
+
     tools {
     maven 'maven-3.9.7'
           }
     stages{
         stage('Git Checkout'){
-            notifyBuild(currentBuild.result = 'STARTED')
+            notifyBuild('STARTED')
             steps{
                 git branch: 'development', credentialsId: '5b2ccc6d-d800-4a85-8af7-3ba6babb271a', url: 'https://github.com/prajesh18/maven-web-application.git'
             }
@@ -34,24 +34,17 @@ pipeline{
             }
         }
     }
-    }
-    catch (e) {
-        currentBuild.result = 'FAILED'
-        throw e
-    }
-    finally{
-        post {
+     post {
               success {
-                notifyBuild(currentBuild.result = 'SUCCESS')
+                notifyBuild(currentBuild.result)
               }
               failure {
-                notifyBuild(currentBuild.result = 'FAILED')
-  }
-}
-
+                notifyBuild(currentBuild.result)
+    
     }
     
-    
+       
+  }
 }
 def notifyBuild(String buildStatus = 'STARTED') {
   // build status of null means successful
