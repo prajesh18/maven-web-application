@@ -1,0 +1,80 @@
+pipeline{
+    agent any
+    try{
+    tools {
+    maven 'maven-3.9.7'
+          }
+    stages{
+        stage('Git Checkout'){
+            notifyBuild(currentBuild.result = 'STARTED')
+            steps{
+                git branch: 'development', credentialsId: '5b2ccc6d-d800-4a85-8af7-3ba6babb271a', url: 'https://github.com/prajesh18/maven-web-application.git'
+            }
+        }
+        stage('Maven Build'){
+            steps{
+                sh "mvn clean package"
+            }
+        }
+        stage('Upload to SonarQube'){
+            steps{
+                sh "mvn clean sonar:sonar"
+            }
+        }
+        stage('Upload to Nexus repo'){
+            steps{
+                sh "mvn clean deploy"
+            }
+        }
+        stage('Upload to Tomcat'){
+            steps{
+                sshagent(['7a74cddd-e5b7-4f8f-ab15-58865ffccfd6']) {
+                    sh "scp -o strictHostKeyChecking=no **/maven-web-application.war ec2-user@13.233.133.193:/opt/apache-tomcat-9.0.89/webapps"
+                }
+            }
+        }
+    }
+    }
+    catch (e) {
+        currentBuild.result = 'FAILED'
+        throw e
+    }
+    finally{
+        post {
+              success {
+                notifyBuild(currentBuild.result = 'SUCCESS')
+              }
+              failure {
+                notifyBuild(currentBuild.result = 'FAILED')
+  }
+}
+
+    }
+    
+    
+}
+def notifyBuild(String buildStatus = 'STARTED') {
+  // build status of null means successful
+  buildStatus =  buildStatus ?: 'SUCCESSFUL'
+
+  // Default values
+  def colorName = 'RED'
+  def colorCode = '#FF0000'
+  def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+  def summary = "${subject} (${env.BUILD_URL})"
+
+  // Override default values based on build status
+  if (buildStatus == 'STARTED') {
+    color = 'YELLOW'
+    colorCode = '#FFFF00'
+  } else if (buildStatus == 'SUCCESSFUL') {
+    color = 'GREEN'
+    colorCode = '#00FF00'
+  } else {
+    color = 'RED'
+    colorCode = '#FF0000'
+  }
+
+  // Send notifications
+  slackSend(color: colorCode, message: summary)
+}
