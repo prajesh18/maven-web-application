@@ -105,7 +105,7 @@
 	    <snapshotRepository>
 	      <id>nexus</id>
 	      <name>RajeshYadav_Cherry</name>
-	      <url>http://65.0.176.34:8081/rajesh/repository/nexus-first-snapshot-repo/</url>
+	      <url>http://43.204.218.20:8081/rajesh/repository/nexus-first-snapshot-repo/</url>
 	    </snapshotRepository>
 	    
 	</distributionManagement>
