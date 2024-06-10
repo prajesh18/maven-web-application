@@ -6,11 +6,12 @@ pipeline{
           }
     stages{
         stage('Git Checkout'){
-            script {
+            
+            steps{
+                 script {
                     notifyBuild('STARTED')
                 }
             
-            steps{
                 git branch: 'development', credentialsId: '5b2ccc6d-d800-4a85-8af7-3ba6babb271a', url: 'https://github.com/prajesh18/maven-web-application.git'
             }
         }
