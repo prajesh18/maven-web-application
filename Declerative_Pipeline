@@ -1,0 +1,35 @@
+pipeline{
+    agent any
+    tools {
+    maven 'maven-3.9.7'
+          }
+    stages{
+        stage('Git Checkout'){
+            steps{
+                git branch: 'development', credentialsId: '5b2ccc6d-d800-4a85-8af7-3ba6babb271a', url: 'https://github.com/prajesh18/maven-web-application.git'
+            }
+        }
+        stage('Maven Build'){
+            steps{
+                sh "mvn clean package"
+            }
+        }
+        stage('Upload to SonarQube'){
+            steps{
+                sh "mvn clean sonar:sonar"
+            }
+        }
+        stage('Upload to Nexus repo'){
+            steps{
+                sh "mvn clean deploy"
+            }
+        }
+        stage('Upload to Tomcat'){
+            steps{
+                sshagent(['7a74cddd-e5b7-4f8f-ab15-58865ffccfd6']) {
+                    sh "scp -o strictHostKeyChecking=no **/maven-web-application.war ec2-user@13.233.133.193:/opt/apache-tomcat-9.0.89/webapps"
+                }
+            }
+        }
+    }
+}
