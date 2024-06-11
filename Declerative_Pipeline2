@@ -1,0 +1,36 @@
+pipeline{
+    agent any
+
+    tools {
+    maven 'maven-3.9.7'
+          }
+    stages{
+        stage('Git Checkout'){
+            
+            steps{
+                 script {
+                    notifyBuild('STARTED')
+                }
+            
+                git branch: 'development', credentialsId: '5b2ccc6d-d800-4a85-8af7-3ba6babb271a', url: 'https://github.com/prajesh18/maven-web-application.git'
+            }
+        }
+        stage('Maven Build'){
+            steps{
+                sh "mvn clean package"
+            }
+        }
+        }
+    
+     post {
+              success {
+                notifyBuild(currentBuild.result)
+              }
+              failure {
+                notifyBuild(currentBuild.result)
+    
+    }
+    
+       
+  }
+}
